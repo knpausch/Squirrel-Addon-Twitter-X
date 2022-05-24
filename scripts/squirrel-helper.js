@@ -17,6 +17,15 @@ function squirrelHelper() {
     const _returnObject = document.createElement('squirrel');
 
     /**
+    * "class" to handle Squirrel messages
+    */
+    function SquirrelMessage(id, name, value) {
+        if (id != null) { this.id = id; }
+        if (name != null) { this.name = name; }
+        if (value != null) { this.value = value; }
+    }
+
+    /**
    * get the value for a URL query string parameter
    * @param name the name of the URL query parameter to get the value for
    * @returns the value of the query parameter
