@@ -1,4 +1,4 @@
-function squirrelHelper(){
+function squirrelHelper() {
 
     let _debug = false;
 
@@ -10,17 +10,17 @@ function squirrelHelper(){
     let _canvas;
     let _state;
     let _bindingDimensions;
-	
+
     /**
      * this is the object returned by the squirrelHelper. It is a DOM element so that it inherits message send / receive capabilities
      */
-	const _returnObject = document.createElement('squirrel');   
-	
-	 /**
-    * get the value for a URL query string parameter
-    * @param name the name of the URL query parameter to get the value for
-    * @returns the value of the query parameter
-    */
+    const _returnObject = document.createElement('squirrel');
+
+    /**
+   * get the value for a URL query string parameter
+   * @param name the name of the URL query parameter to get the value for
+   * @returns the value of the query parameter
+   */
     function getParameterByName(name) {
         const url = window.location.href;
         name = name.replace(/[\[\]]/g, '\\$&');
@@ -36,7 +36,7 @@ function squirrelHelper(){
      * Called if an unexpected message is received from Squirrel
      * @param message the whole message body received
      */
-    function catchAllMessageReceived(message){
+    function catchAllMessageReceived(message) {
         if (_debug) {
             console.log('CHILD - unknown message received', message);
         }
@@ -67,9 +67,9 @@ function squirrelHelper(){
     /**
      * event handler for messages from Squirrel
      * event.name is the name of the message
-	 * event.value is the value of the message
+     * event.value is the value of the message
      */
-    function messageHandler(event){
+    function messageHandler(event) {
         if (event.data.id == _ifid) {
             const message = event.data;
 
@@ -134,14 +134,14 @@ function squirrelHelper(){
      * Initialises the add-on and posts the DOMREADY message to the parent.
      * @param spoofResponse default false, if true will not send DOMREADY to Squirrel, instea will simulate a response back.  Useful when developing
      */
-    function initWithSquirrel(){
+    function initWithSquirrel() {
         if (_debug) {
             console.log('CHILD - Add-on initialised');
             console.log('CHILD - DOMREADY');
         }
         // set the internal IFID tag
         _ifid = getParameterByName('ifid');
-		
+
         // send DOMREADY to Squirrel
         if (_ifid != null && _ifid !== '') {
             parent.postMessage({ 'id': _ifid, 'message': 'DOMREADY' }, '*');
@@ -158,7 +158,7 @@ function squirrelHelper(){
      * @param value the value or multi-dimension array of data to send to parent
      * @param padData If true, the data sent to Squirrel will match the dimensions of the binding range.  Padding with nulls if necessary
      */
-    function sendToSquirrel(property, value, padData = true){
+    function sendToSquirrel(property, value, padData = true) {
         // check to see if the value is different, if not do not send message
         let data = value;
         if (padData) {
@@ -305,7 +305,7 @@ function squirrelHelper(){
      * @returns string
      * Added in build 1.12.x
      */
-     function getRuntimeMode() {
+    function getRuntimeMode() {
         return _runtimeMode;
     }
 
@@ -314,7 +314,7 @@ function squirrelHelper(){
      * @returns canvas object
      * Added in build 1.12.x
      */
-     function getCanvas() {
+    function getCanvas() {
         return _canvas;
     }
 
@@ -323,7 +323,8 @@ function squirrelHelper(){
      * @param size  
      * Added in build 1.12.x
      */
-    function setSize(size){
+    function setSize(width, height) {
+        const size = { width: width, height: height };
         const message = new SquirrelMessage(_ifid, 'size', size);
         if (_debug) { console.log('CHILD - sending rezise message to parent', size) }
         parent.postMessage(message, '*');
@@ -334,7 +335,8 @@ function squirrelHelper(){
      * @param position 
      * Added in build 1.12.x
      */
-    function setPosition(position){
+    function setPosition(x, y) {
+        const position = { x: x, y: y };
         const message = new SquirrelMessage(_ifid, 'position', position);
         if (_debug) { console.log('CHILD - sending position message to parent', position) }
         parent.postMessage(message, '*');
@@ -370,24 +372,24 @@ function squirrelHelper(){
      * @param position the position object passed in from the message handler
      * Added in build 1.12.x
      */
-    function onSetPosition(position){
+    function onSetPosition(position) {
         if (_debug) {
             console.log('CHILD - setPosition message received', position);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-		_returnObject.dispatchEvent(new CustomEvent('positionChanged'));
+        _returnObject.dispatchEvent(new CustomEvent('positionChanged'));
     }
 
     /**
      * Called when a setSize event is received from Squirrel
      * @param size the size object passed in from the message handler
      */
-    function onSetSize(size){
+    function onSetSize(size) {
         if (_debug) {
             console.log('CHILD - setSize message received', size);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-		_returnObject.dispatchEvent(new CustomEvent('sizeChanged'));
+        _returnObject.dispatchEvent(new CustomEvent('sizeChanged'));
     }
 
     /**
@@ -395,12 +397,12 @@ function squirrelHelper(){
      * @param mode the mode string passed in from the message handler
      * Added in build 1.12.x
      */
-    function onSetRuntimeMode(mode){
+    function onSetRuntimeMode(mode) {
         if (_debug) {
             console.log('CHILD - setRuntimeMode message received', mode);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-		_returnObject.dispatchEvent(new CustomEvent('runtimeModeChanged'));
+        _returnObject.dispatchEvent(new CustomEvent('runtimeModeChanged'));
     }
 
     /**
@@ -408,12 +410,12 @@ function squirrelHelper(){
      * @param canvas the canvas structure passed in from the message handler
      * Added in build 1.12.x
      */
-    function onSetCanvas(canvas){
+    function onSetCanvas(canvas) {
         if (_debug) {
             console.log('CHILD - setCanvas message received', canvas);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-	_returnObject.dispatchEvent(new CustomEvent('canvasSizeChanged'));
+        _returnObject.dispatchEvent(new CustomEvent('canvasSizeChanged'));
 
     }
 
@@ -421,12 +423,12 @@ function squirrelHelper(){
      * Called when an initState event is recevied from Squirrel.
      * @param state a copy of the whole of the addon's state
      */
-    function onInitState(state){
+    function onInitState(state) {
         if (_debug) {
             console.log('CHILD - onInitState message received', state);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
-        }	
-		_returnObject.dispatchEvent(new CustomEvent('initState', { detail: {state: state} }));
+        }
+        _returnObject.dispatchEvent(new CustomEvent('initState', { detail: { state: state } }));
     }
 
     /**
@@ -434,12 +436,12 @@ function squirrelHelper(){
      * @param property the property name which changed
      * @param value the value the property changed to
      */
-    function onPropertyChange(property, value){
+    function onPropertyChange(property, value) {
         if (_debug) {
             console.log('CHILD - onPropertyChange message received', property, value);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-		_returnObject.dispatchEvent(new CustomEvent('propertyChanged', { detail: {property, value}}));
+        _returnObject.dispatchEvent(new CustomEvent('propertyChanged', { detail: { property, value } }));
     }
 
     /**
@@ -447,39 +449,33 @@ function squirrelHelper(){
      * either when a single or multiple values change at once.  This is the flag to say
      * There are no more incoming value changs to process at this time.
      */
-    function onPropertyChangesComplete(){
+    function onPropertyChangesComplete() {
         if (_debug) {
             console.log('CHILD - propertyChangesComplete message received');
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-		_returnObject.dispatchEvent(new CustomEvent('propertyChangesComplete'));
+        _returnObject.dispatchEvent(new CustomEvent('propertyChangesComplete'));
     }
 
-	//setup the main message event listenr to listen to messages from Squirrel
-	window.addEventListener('message',messageHandler);
+    //setup the main message event listenr to listen to messages from Squirrel
+    window.addEventListener('message', messageHandler);
 
-	 /**
-     * expose the required propoeries to the retunred squirrelHelper object
-     */
+    /**
+    * expose the required propoeries to the retunred squirrelHelper object
+    */
 
-	//functions
-	_returnObject.initWithSquirrel = initWithSquirrel;
-	_returnObject.sendToSquirrel = sendToSquirrel;
-	_returnObject.setSize = setSize;
-	_returnObject.getSize = getSize;
-	_returnObject.setPosition = setPosition;
-	_returnObject.getPosition = getPosition;
-	_returnObject.getCanvas = getCanvas;
-	_returnObject.getRuntimeMode = getRuntimeMode;
-	_returnObject.getCopyOfState = getCopyOfState;
-	_returnObject.getGenericProperty = getGenericProperty;
-	
-	//"classes"
-	_returnObject.SquirrelSize = SquirrelSize;
-	_returnObject.SquirrelPosition = SquirrelPosition;
-	_returnObject.SquirrelCanvas = SquirrelCanvas;
-	_returnObject.SquirrelSize = SquirrelColor;
-	
-	return _returnObject	
+    //functions
+    _returnObject.initWithSquirrel = initWithSquirrel;
+    _returnObject.sendToSquirrel = sendToSquirrel;
+    _returnObject.setSize = setSize;
+    _returnObject.getSize = getSize;
+    _returnObject.setPosition = setPosition;
+    _returnObject.getPosition = getPosition;
+    _returnObject.getCanvas = getCanvas;
+    _returnObject.getRuntimeMode = getRuntimeMode;
+    _returnObject.getCopyOfState = getCopyOfState;
+    _returnObject.getGenericProperty = getGenericProperty;
+
+    return _returnObject
 }
 const Squirrel = new squirrelHelper();
