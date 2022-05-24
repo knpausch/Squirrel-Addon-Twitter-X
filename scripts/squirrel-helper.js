@@ -17,47 +17,6 @@ function squirrelHelper(){
 	const _returnObject = document.createElement('squirrel');   
 	
 	 /**
-     * "class" to handle Squirrel messages
-     */
-	function SquirrelMessage(id, name, value){
-        if (id != null) { this.id = id; }
-        if (name != null) { this.name = name; }
-        if (value != null) { this.value = value; }
-    }
-	
-	 /**
-     * "class" to handle Squirrel sizes
-     */
-	function SquirrelSize(height,width){
-        if (width != null) { this.width = width; }
-        if (height != null) { this.height = height; }
-    }
-
-	 /**
-     * "class" to handle Squirrel positions
-     */
-	function SquirrelPosition(x,y){
-        if (x != null) { this.x = x; }
-        if (y != null) { this.y = y; }
-    }
-
-	 /**
-     * "class" to handle Squirrel colors
-     */
-	function SquirrelColor(color,alpha){
-        if (color != null) { this.color = color; }
-        if (alpha != null) { this.alpha = alpha; }
-    }
-
-	 /**
-     * "class" to handle Squirrel canvas
-     */
-	function SquirrelCanvas(size,color){
-        if (size != null) { this.size = size; }
-        if (color != null) { this.color = color; }
-    }
-
-	/**
     * get the value for a URL query string parameter
     * @param name the name of the URL query parameter to get the value for
     * @returns the value of the query parameter
@@ -326,7 +285,7 @@ function squirrelHelper(){
 
     /**
      * Get the current size of the component in Squirrel
-     * @returns SquirrelSize object
+     * @returns size object
      */
     function getSize() {
         return _size;
@@ -334,7 +293,7 @@ function squirrelHelper(){
 
     /**
      * Get the current position of the component on the Squirrel canvas
-     * @returns SquirrelPosition object
+     * @returns position object
      * Added in build 1.12.x
      */
     function getPosition() {
@@ -352,7 +311,7 @@ function squirrelHelper(){
 
     /**
      * Get the current size and color of the Squirrel canvas
-     * @returns SquirrelCanvas object
+     * @returns canvas object
      * Added in build 1.12.x
      */
      function getCanvas() {
@@ -361,7 +320,7 @@ function squirrelHelper(){
 
     /**
      * Sets the size of the component in Squirrel
-     * @param size type SquirrelSize 
+     * @param size  
      * Added in build 1.12.x
      */
     function setSize(size){
@@ -372,7 +331,7 @@ function squirrelHelper(){
 
     /**
      * Sets the position of the component on the Squirrel canvas
-     * @param position type SquirrelSize 
+     * @param position 
      * Added in build 1.12.x
      */
     function setPosition(position){

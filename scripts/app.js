@@ -5,8 +5,8 @@
     * handles a property change sent from Squirrel. 
     */
     function propertyChangedHandler(e) {
-        var propertyName = e.detail.property
-        var propertyValue = e.detail.value
+        const propertyName = e.detail.property
+        const propertyValue = e.detail.value
 
         switch (Squirrel.getGenericProperty(propertyName)) {
             case 'helloWorldData':
@@ -19,12 +19,13 @@
     }
 
     /**
-    * handles setting the initial setate sent] from Squirrel.
-    * 
+    * handles setting the initial setate sent from Squirrel.
     */
     function initStateHandler(e) {
 
-        var state = e.detail.state									//set the state from the message
+        //set the state from the message
+        const state = e.detail.state
+
         if (state != null) {
             processData(state.helloWorldData);
         }
@@ -41,10 +42,13 @@
 
     }
 
-    //create a squrrelHelper object
+    //listen for property changes
+    Squirrel.addEventListener('propertyChanged', propertyChangedHandler);
 
-    Squirrel.addEventListener('propertyChanged', propertyChangedHandler);				//listem for propoerty changes
-    Squirrel.addEventListener('initState', initStateHandler);							//listing for initial state
-    Squirrel.initWithSquirrel();														//initialise 
+    //listing for initial state
+    Squirrel.addEventListener('initState', initStateHandler);
+
+    //initialise 
+    Squirrel.initWithSquirrel();
 
 })();
