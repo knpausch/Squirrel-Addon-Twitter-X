@@ -377,7 +377,8 @@ function squirrelHelper() {
             console.log('CHILD - setPosition message received', position);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('positionChanged'));
+        const detail = {name:'onSetPosition', position: position}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     /**
@@ -389,7 +390,8 @@ function squirrelHelper() {
             console.log('CHILD - setSize message received', size);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('sizeChanged'));
+        const detail = {name:'onSetSize'}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     /**
@@ -402,7 +404,8 @@ function squirrelHelper() {
             console.log('CHILD - setRuntimeMode message received', mode);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('runtimeModeChanged'));
+        const detail = {name:'onSetRuntimeMode', mode: mode}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     /**
@@ -415,7 +418,8 @@ function squirrelHelper() {
             console.log('CHILD - setCanvas message received', canvas);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('canvasSizeChanged'));
+        const detail = {name:'onSetCanvas', canvas: canvas}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail}));
 
     }
 
@@ -428,7 +432,8 @@ function squirrelHelper() {
             console.log('CHILD - onInitState message received', state);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('initState', { detail: { state: state } }));
+        const detail = {name:'onInitState', state: state}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     /**
@@ -441,7 +446,8 @@ function squirrelHelper() {
             console.log('CHILD - onPropertyChange message received', property, value);
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('propertyChanged', { detail: { property, value } }));
+        const detail = {name:'onPropertyChange', property: property, value: value}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     /**
@@ -454,7 +460,8 @@ function squirrelHelper() {
             console.log('CHILD - propertyChangesComplete message received');
             console.warn('CHILD - don\'t forget to handle event to process incoming messages');
         }
-        _returnObject.dispatchEvent(new CustomEvent('propertyChangesComplete'));
+        const detail = {name:'onPropertyChangesComplete'}
+        _returnObject.dispatchEvent(new CustomEvent('eventDispatch', { detail: detail }));
     }
 
     //setup the main message event listenr to listen to messages from Squirrel
@@ -479,3 +486,4 @@ function squirrelHelper() {
     return _returnObject
 }
 const Squirrel = new squirrelHelper();
+
