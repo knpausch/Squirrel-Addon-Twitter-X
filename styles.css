@@ -1,0 +1,13 @@
+body {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    background-color: blueviolet;
+}
+
+.greeting {
+    margin-top: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    color: white;
+}
