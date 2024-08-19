@@ -4,7 +4,11 @@
         "direction": "receive"
     },
     {
-        "property": "helloWorldResponse",
-        "direction": "send"
+        "property": "postURL",
+        "direction": "receive"
+    },
+    {
+        "property": "xUsername",
+        "direction": "receive"
     }
 ]
