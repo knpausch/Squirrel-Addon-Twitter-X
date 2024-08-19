@@ -18,6 +18,29 @@
 
     }
 
+    document.getElementById('embedTweetBtn').addEventListener('click', function() {
+        const tweetUrl = document.getElementById('tweetUrl').value;
+        const tweetContainer = document.getElementById('tweetContainer');
+    
+        // Clear previous tweet if any
+        tweetContainer.innerHTML = '';
+    
+        // Extract the Tweet ID from the URL
+        const tweetId = tweetUrl.split('/').pop().split('?')[0];
+    
+        // Create the blockquote element manually (alternative to createTweetEmbed)
+        const blockquote = document.createElement('blockquote');
+        blockquote.className = 'twitter-tweet';
+        const anchor = document.createElement('a');
+        anchor.href = tweetUrl;
+        blockquote.appendChild(anchor);
+        tweetContainer.appendChild(blockquote);
+    
+        // Re-load Twitter's widgets.js to render the new tweet
+        twttr.widgets.load();
+    });
+    
+
     // handles a property change sent from Squirrel. 
     function onPropertyChange(e) {
         const propertyName = e.detail.property
