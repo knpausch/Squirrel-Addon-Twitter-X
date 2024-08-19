@@ -7,23 +7,67 @@
         },
         "children": [
             {
-                "type": "InputBox",
+                "type": "Dropdown",
                 "properties": {
-                    "labelName": "Hello world text:",
-                    "allowBinding": true,
-                    "allowManualEntry": true,
-                    "textArea": true,
-                    "bindingPropertyName": "helloWorldData"
+                    "labelName": "Style",
+                    "options": [
+                        {
+                            "option": "",
+                            "text": "Please Select"
+                        },
+                        {
+                            "option": "singlePost",
+                            "text": "Single Post"
+                        },
+                        {
+                            "option": "timeline",
+                            "text": "Timeline"
+                        }
+                    ],
+                    "bindingPropertyName": "styleType"
                 }
             },
             {
-                "type": "InputBox",
+                "type": "ConditionalBlock",
                 "properties": {
-                    "labelName": "Hello world response:",
-                    "allowBinding": true,
-                    "allowManualEntry": false,
-                    "bindingPropertyName": "helloWorldResponse"
-                }
+                    "bindingPropertyName": "styleType",
+                    "equals": "singlePost"
+                },
+                "children": [
+                    {
+                        "type": "InputBox",
+                        "properties": {
+                            "labelName": "URL of X Post:",
+                            "allowBinding": true,
+                            "allowManualEntry": true,
+                            "spellcheck": false,
+                            "type": "URL",
+                            "liveUpdate": true,
+                            "bindingPropertyName": "postURL"
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "ConditionalBlock",
+                "properties": {
+                    "bindingPropertyName": "styleType",
+                    "equals": "timeline"
+                },
+                "children": [
+                    {
+                        "type": "InputBox",
+                        "properties": {
+                            "labelName": "X Username:",
+                            "allowBinding": true,
+                            "allowManualEntry": true,
+                            "spellcheck": false,
+                            "type": "Text",
+                            "liveUpdate": true,
+                            "bindingPropertyName": "xUsername"
+                        }
+                    }
+                ]
             }          
         ]
     }

@@ -1,6 +1,6 @@
 [
     {
-        "property": "helloWorldData",
+        "property": "styleType",
         "direction": "receive"
     },
     {
