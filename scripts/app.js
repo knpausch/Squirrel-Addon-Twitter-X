@@ -25,7 +25,7 @@
 
         switch (Squirrel.getGenericProperty(propertyName)) {
             case 'helloWorldData':
-                processData(propertyValue)
+                // processData(propertyValue)
                 break;
             default:
                 console.log("Unknown message type: " + propertyName);
@@ -39,7 +39,7 @@
         const state = e.detail.state
 
         if (state != null) {
-            processData(state.helloWorldData);
+            // processData(state.helloWorldData);
         }
     }
     
