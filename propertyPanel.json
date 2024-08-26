@@ -41,7 +41,7 @@
                             "allowBinding": true,
                             "allowManualEntry": true,
                             "spellcheck": false,
-                            "type": "URL",
+                            "type": "Text",
                             "liveUpdate": true,
                             "bindingPropertyName": "postURL"
                         }
