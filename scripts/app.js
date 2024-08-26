@@ -4,6 +4,11 @@
   let widgetType;
   let twitterPostURL;
 
+  const tweetContainer = document.getElementById("tweet-container");
+
+  Squirrel.addEventListener("eventDispatch", (e) => eval(`${e.detail.name}(e)`));
+  Squirrel.initWithSquirrel();
+
   function onInitState(e) {
     const state = e.detail.state;
 
@@ -12,6 +17,7 @@
       twitterPostURL = state.postURL;
       widgetType = state.styleType;
     }
+    renderTweet();
   }
 
   function onPropertyChange(e) {
@@ -29,14 +35,23 @@
         console.log("Unknown message type: " + propertyName);
         break;
     }
+    renderTweet();
   }
 
-  Squirrel.addEventListener("eventDispatch", (e) =>
-    eval(`${e.detail.name}(e)`)
-  );
+  function renderTweet() {
+    const proxyUrl = "http://localhost:3000/";
+    const apiUrl = `${proxyUrl}https://publish.twitter.com/oembed?url=${encodeURIComponent(twitterPostURL)}`;
 
-  Squirrel.initWithSquirrel();
-  
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        tweetContainer.innerHTML = data.html; 
+      })
+      .catch((error) => {
+        console.error("Error fetching tweet:", error);
+      });
+  }
+
   function onPropertyChangesComplete() {}
 
   function onSetCanvas(e) {
