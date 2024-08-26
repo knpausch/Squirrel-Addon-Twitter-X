@@ -1,78 +1,105 @@
 (() => {
-  "use strict";
-
-  let widgetType;
-  let twitterPostURL;
-
-  const tweetContainer = document.getElementById("tweet-container");
-
-  Squirrel.addEventListener("eventDispatch", (e) =>
-    eval(`${e.detail.name}(e)`)
-  );
-  Squirrel.initWithSquirrel();
-
-  function onInitState(e) {
-    const state = e.detail.state;
-
-    if (state) {
-      console.log("STATE: ", state);
-      twitterPostURL = state.postURL;
-      widgetType = state.styleType;
+    "use strict";
+  
+    let widgetType;
+    let twitterPostURL;
+  
+    const tweetContainer = document.getElementById("tweet-container");
+    const twitterLogo = document.getElementById("twitter-logo");
+  
+    Squirrel.addEventListener("eventDispatch", (e) => eval(`${e.detail.name}(e)`));
+    Squirrel.initWithSquirrel();
+  
+    function onInitState(e) {
+      const state = e.detail.state;
+  
+      if (state) {
+        console.log("STATE: ", state);
+        twitterPostURL = state.postURL;
+        widgetType = state.styleType;
+      }
+      renderTweet();
     }
-    renderTweet();
-  }
-
-  function onPropertyChange(e) {
-    const propertyName = e.detail.property;
-    const propertyValue = e.detail.value;
-
-    switch (Squirrel.getGenericProperty(propertyName)) {
-      case "styleType":
-        widgetType = propertyValue;
-        break;
-      case "postURL":
-        twitterPostURL = propertyValue;
-        break;
-      default:
-        console.log("Unknown message type: " + propertyName);
-        break;
+  
+    function onPropertyChange(e) {
+      const propertyName = e.detail.property;
+      const propertyValue = e.detail.value;
+  
+      switch (Squirrel.getGenericProperty(propertyName)) {
+        case "styleType":
+          widgetType = propertyValue;
+          break;
+        case "postURL":
+          twitterPostURL = propertyValue;
+          break;
+        default:
+          console.log("Unknown message type: " + propertyName);
+          break;
+      }
+      renderTweet();
     }
-    renderTweet();
-  }
-
-  function renderTweet() {
-    document.addEventListener("DOMContentLoaded", () => {
-      const tweetUrl = "https://x.com/Squirrel_365/status/1813136575007433144";
+  
+    function renderTweet() {
+      if (!twitterPostURL || !isValidTwitterURL(twitterPostURL)) {
+        displayTwitterLogo();
+        return;
+      }
+  
       const proxyUrl = "http://localhost:3000/";
-      const apiUrl = `${proxyUrl}https://publish.twitter.com/oembed?url=${encodeURIComponent(tweetUrl)}`;
-
+      const apiUrl = `${proxyUrl}https://publish.twitter.com/oembed?url=${encodeURIComponent(twitterPostURL)}`;
+  
       fetch(apiUrl)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((data) => {
-          console.log(data.html); 
-          tweetContainer.innerHTML = data.html; 
+          hideTwitterLogo();
+          tweetContainer.innerHTML = data.html;
+            if (window.twttr) {
+            window.twttr.widgets.load();
+          }
         })
         .catch((error) => {
-          console.error("Error fetching tweet:", error); 
+          console.error("Error fetching tweet:", error);
+          displayTwitterLogo();
         });
-    });
-  }
-
-  function onPropertyChangesComplete() {}
-
-  function onSetCanvas(e) {
-    const canvas = e.detail.canvas;
-  }
-
-  function onSetRuntimeMode(e) {
-    const mode = e.detail.mode;
-  }
-
-  function onSetSize(e) {
-    const size = e.detail.size;
-  }
-
-  function onSetPosition(e) {
-    const position = e.detail.position;
-  }
-})();
+    }
+  
+    function isValidTwitterURL(url) {
+      const twitterURLPattern = /^https:\/\/(www\.)?twitter\.com\/[A-z0-9_]+\/status\/[0-9]+$/;
+      return twitterURLPattern.test(url);
+    }
+  
+    function displayTwitterLogo() {
+      twitterLogo.style.display = "block";
+      tweetContainer.innerHTML = ''; 
+    }
+  
+    function hideTwitterLogo() {
+      twitterLogo.style.display = "none";
+    }
+  
+    function onPropertyChangesComplete() {}
+  
+    function onSetCanvas(e) {
+      const canvas = e.detail.canvas;
+    }
+  
+    function onSetRuntimeMode(e) {
+      const mode = e.detail.mode;
+    }
+  
+    function onSetSize(e) {
+      const size = e.detail.size;
+    }
+  
+    function onSetPosition(e) {
+      const position = e.detail.position;
+    }
+  
+    displayTwitterLogo();
+  })();
+  
