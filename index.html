@@ -1,4 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SquirrelAddon</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script defer src="./scripts/squirrel-helper.js"></script>
+    <script defer src="./scripts/app.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="tweetContainer"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const tweetUrl ="https://x.com/Squirrel_365/status/1813136575007433144";
+      const proxyUrl = "http://localhost:3000/"; // Your proxy server URL
+      const apiUrl = `${proxyUrl}https://publish.twitter.com/oembed?url=${encodeURIComponent(tweetUrl)}`;
+
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.html); // Handle the JSON response
+          document.getElementById("tweetContainer").innerHTML = data.html; // Inject HTML into the DOM
+        })
+        .catch((error) => {
+          console.error("Error fetching tweet:", error); // Handle any errors
+        });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -29,34 +68,7 @@
           .catch((error) => {
             console.error("Error fetching tweet:", error); // Handle any errors
           });
-
-        // // URL of the tweet to fetch
-        // const tweetUrl = 'https://x.com/Squirrel_365/status/1813172740414648554';
-
-        // // Fetch the tweet oEmbed data
-        // fetch(`https://publish.twitter.com/oembed?url=${encodeURIComponent(tweetUrl)}`)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         // Decode HTML from JSON
-        //         const tweetHtml = data.html;
-
-        //         // Insert the decoded HTML into the tweetContainer
-        //         document.getElementById('tweetContainer').innerHTML = tweetHtml;
-
-        //         // Load Twitter widgets to render the tweet
-        //         if (typeof twttr !== 'undefined') {
-        //             twttr.widgets.load();
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching tweet:', error);
-        //     });
       });
     </script>
   </body>
-</html>
+</html> -->
