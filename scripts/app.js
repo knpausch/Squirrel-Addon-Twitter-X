@@ -5,6 +5,7 @@
     let twitterPostURL;
   
     const tweetContainer = document.getElementById("tweet-container");
+    const twitterLogoContainer = document.getElementById("twitter-logo-container");
     const twitterLogo = document.getElementById("twitter-logo");
   
     Squirrel.addEventListener("eventDispatch", (e) => eval(`${e.detail.name}(e)`));
@@ -74,12 +75,16 @@
     }
   
     function displayTwitterLogo() {
-      twitterLogo.style.display = "block";
+      twitterLogo.style.visibility = "visible";
+      twitterLogoContainer.style.visibility = "visible";
+      twitterLogoContainer.style.height = "100vh"; 
       tweetContainer.innerHTML = ''; 
     }
   
     function hideTwitterLogo() {
-      twitterLogo.style.display = "none";
+      twitterLogo.style.visibility = "hidden";
+      twitterLogoContainer.style.visibility = "hidden";
+      twitterLogoContainer.style.height = "0"; 
     }
   
     function onPropertyChangesComplete() {}
