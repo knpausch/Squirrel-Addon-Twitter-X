@@ -37,7 +37,7 @@
                     {
                         "type": "InputBox",
                         "properties": {
-                            "labelName": "URL of X Post:",
+                            "labelName": "X Post URL:",
                             "allowBinding": true,
                             "allowManualEntry": true,
                             "spellcheck": false,

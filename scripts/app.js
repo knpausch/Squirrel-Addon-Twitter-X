@@ -6,9 +6,7 @@
   let twitterUsername;
 
   const tweetContainer = document.getElementById("tweet-container");
-  const twitterLogoContainer = document.getElementById(
-    "twitter-logo-container"
-  );
+  const twitterLogoContainer = document.getElementById("twitter-logo-container");
   const twitterLogo = document.getElementById("twitter-logo");
 
   Squirrel.addEventListener("eventDispatch", (e) => eval(`${e.detail.name}(e)`));
@@ -16,9 +14,7 @@
 
   function onInitState(e) {
     const state = e.detail.state;
-
     if (state) {
-      console.log("STATE: ", state);
       twitterPostURL = state.postURL;
       widgetType = state.styleType;
       twitterUsername = state.xUsername;
@@ -40,15 +36,22 @@
       case "xUsername":
         twitterUsername = propertyValue;
         break;
-      default:
-        console.log("Unknown message type: " + propertyName);
-        break;
     }
     render();
   }
 
-  function renderTwitterPost(){
-    console.log("single post")
+  function render() {
+    switch (widgetType) {
+      case "singlePost":
+        renderTwitterPost();
+        break;
+      case "timeline":
+        renderTwitterTimeline();
+        break;
+    }
+  }
+
+  function renderTwitterPost() {
     if (twitterPostURL && isValidTwitterURL(twitterPostURL)) {
       hideTwitterLogo();
 
@@ -61,7 +64,7 @@
 
       const tweetLink = document.createElement("a");
       tweetLink.href = twitterPostURL;
-      tweetLink.innerText = "Loading X Post...";
+      tweetLink.innerText = "Searching X Post...";
       tweetLink.target = "_blank";
 
       blockquote.appendChild(tweetLink);
@@ -69,48 +72,6 @@
 
       if (window.twttr && window.twttr.widgets) {
         window.twttr.widgets.load();
-      } 
-      else {
-        console.error("Twitter widgets script not loaded or `twttr` is not defined");
-      }
-    } 
-    else {
-      displayTwitterLogo();
-    }
-  }
-
-  function renderTwitterTimeline() {
-    twitterUsername = formatUsername(twitterUsername);
-    console.log("timeline for ", twitterUsername);
-  
-    if (twitterUsername) {
-      hideTwitterLogo();
-  
-      tweetContainer.innerHTML = "";
-      tweetContainer.style.overflow = "auto";
-      tweetContainer.style.height = "100vh";
-  
-      const tweetLink = document.createElement("a");
-      tweetLink.className = "twitter-timeline";
-      tweetLink.href = "https://twitter.com/" + twitterUsername;
-      tweetLink.innerText = "Loading X Timeline...";
-      tweetLink.target = "_blank";
-  
-      tweetContainer.appendChild(tweetLink);
-  
-      if (window.twttr && window.twttr.widgets) {
-        window.twttr.widgets.load();
-        
-        // Check for loading completion with a timeout
-        setTimeout(() => {
-          const timeline = document.querySelector('.twitter-timeline');
-          if (timeline && timeline.innerText.includes("Loading X Timeline...")) {
-            console.error("Timeline failed to load.");
-            displayTwitterLogo(); // Show the fallback logo
-          } else {
-            console.log("Timeline loaded successfully.");
-          }
-        }, 5000); // Adjust timeout as needed
       } else {
         console.error("Twitter widgets script not loaded or `twttr` is not defined");
       }
@@ -118,30 +79,52 @@
       displayTwitterLogo();
     }
   }
-  
 
-  function render() {
-    switch (widgetType) {
-      case "singlePost":
-        renderTwitterPost();
-        break;
-      case "timeline":
-        renderTwitterTimeline();
-        break;
-      default:
-        console.log("Unknown widget type: " + propertyName);
-        break;
+  function renderTwitterTimeline() {
+    twitterUsername = formatUsername(twitterUsername);
+    if (twitterUsername) {
+      hideTwitterLogo();
+
+      tweetContainer.innerHTML = "";
+      tweetContainer.style.overflow = "auto";
+      tweetContainer.style.height = "100vh";
+
+      const tweetLink = document.createElement("a");
+      tweetLink.className = "twitter-timeline";
+      tweetLink.href = "https://twitter.com/" + twitterUsername;
+      tweetLink.innerText = "Searching X Timeline...";
+      tweetLink.target = "_blank";
+
+      tweetContainer.appendChild(tweetLink);
+
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load();
+
+        setTimeout(() => {
+          const timeline = document.querySelector(".twitter-timeline");
+          if (
+            timeline &&
+            timeline.innerText.includes("Loading X Timeline...")
+          ) {
+            console.error("Timeline failed to load.");
+            displayTwitterLogo();
+          }
+        }, 7000);
+      } else {
+        console.error("Twitter widgets script not loaded or `twttr` is not defined");
+      }
+    } else {
+      displayTwitterLogo();
     }
   }
 
   function isValidTwitterURL(url) {
-    const twitterURLPattern =
-      /^https:\/\/(www\.)?twitter\.com\/[A-z0-9_]+\/status\/[0-9]+$/;
+    const twitterURLPattern = /^https:\/\/(www\.)?twitter\.com\/[A-z0-9_]+\/status\/[0-9]+$/;
     return twitterURLPattern.test(url);
   }
 
-  function formatUsername(username){
-    return username.replace(/@/g, '');
+  function formatUsername(username) {
+    return username.replace(/@/g, "");
   }
 
   function displayTwitterLogo() {
