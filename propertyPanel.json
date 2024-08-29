@@ -24,13 +24,13 @@
                             "text": "Timeline"
                         }
                     ],
-                    "bindingPropertyName": "styleType"
+                    "bindingPropertyName": "widgetStyle"
                 }
             },
             {
                 "type": "ConditionalBlock",
                 "properties": {
-                    "bindingPropertyName": "styleType",
+                    "bindingPropertyName": "widgetStyle",
                     "equals": "singlePost"
                 },
                 "children": [
@@ -43,7 +43,7 @@
                             "spellcheck": false,
                             "type": "Text",
                             "liveUpdate": true,
-                            "bindingPropertyName": "postURL"
+                            "bindingPropertyName": "twitterPostURL"
                         }
                     }
                 ]
@@ -51,7 +51,7 @@
             {
                 "type": "ConditionalBlock",
                 "properties": {
-                    "bindingPropertyName": "styleType",
+                    "bindingPropertyName": "widgetStyle",
                     "equals": "timeline"
                 },
                 "children": [
@@ -64,7 +64,7 @@
                             "spellcheck": false,
                             "type": "Text",
                             "liveUpdate": true,
-                            "bindingPropertyName": "xUsername"
+                            "bindingPropertyName": "twitterUsername"
                         }
                     }
                 ]

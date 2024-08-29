@@ -15,9 +15,9 @@
   function onInitState(e) {
     const state = e.detail.state;
     if (state) {
-      twitterPostURL = state.postURL;
-      widgetType = state.styleType;
-      twitterUsername = state.xUsername;
+      twitterPostURL = state.twitterPostURL;
+      widgetType = state.widgetStyle;
+      twitterUsername = state.twitterUsername;
       render();
     }
   }
@@ -27,13 +27,13 @@
     const propertyValue = e.detail.value;
 
     switch (Squirrel.getGenericProperty(propertyName)) {
-      case "styleType":
+      case "widgetStyle":
         widgetType = propertyValue;
         break;
-      case "postURL":
+      case "twitterPostURL":
         twitterPostURL = propertyValue;
         break;
-      case "xUsername":
+      case "twitterUsername":
         twitterUsername = propertyValue;
         break;
     }
@@ -104,12 +104,12 @@
           const timeline = document.querySelector(".twitter-timeline");
           if (
             timeline &&
-            timeline.innerText.includes("Loading X Timeline...")
+            timeline.innerText.includes("Searching X Timeline...")
           ) {
             console.error("Timeline failed to load.");
             displayTwitterLogo();
           }
-        }, 7000);
+        }, 5000);
       } else {
         console.error("Twitter widgets script not loaded or `twttr` is not defined");
       }

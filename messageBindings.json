@@ -1,14 +1,14 @@
 [
     {
-        "property": "styleType",
+        "property": "widgetStyle",
         "direction": "receive"
     },
     {
-        "property": "postURL",
+        "property": "twitterPostURL",
         "direction": "receive"
     },
     {
-        "property": "xUsername",
+        "property": "twitterUsername",
         "direction": "receive"
     }
 ]
