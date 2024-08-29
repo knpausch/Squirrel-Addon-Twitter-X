@@ -53,12 +53,15 @@
       hideTwitterLogo();
 
       tweetContainer.innerHTML = "";
+      tweetContainer.style.overflow = "hidden";
+      tweetContainer.style.height = "auto";
+
       const blockquote = document.createElement("blockquote");
       blockquote.className = "twitter-tweet";
 
       const tweetLink = document.createElement("a");
       tweetLink.href = twitterPostURL;
-      tweetLink.innerText = "Loading Tweet...";
+      tweetLink.innerText = "Loading X Post...";
       tweetLink.target = "_blank";
 
       blockquote.appendChild(tweetLink);
@@ -82,11 +85,13 @@
       hideTwitterLogo();
 
       tweetContainer.innerHTML = "";
+      tweetContainer.style.overflow = "auto";
+      tweetContainer.style.height = "100vh";
 
       const tweetLink = document.createElement("a");
       tweetLink.className = "twitter-timeline";
       tweetLink.href = "https://twitter.com/" + twitterUsername;
-      tweetLink.innerText = "Loading Tweet...";
+      tweetLink.innerText = "Loading X Timeline...";
       tweetLink.target = "_blank";
 
       tweetContainer.appendChild(tweetLink);

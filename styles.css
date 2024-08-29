@@ -13,3 +13,8 @@ body {
 #twitter-logo {
     width: 50%;
 }
+
+#tweet-container {
+    width: 100%;
+    height: 500px;
+}
