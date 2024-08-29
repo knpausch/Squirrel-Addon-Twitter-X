@@ -79,35 +79,45 @@
     }
   }
 
-  function renderTwitterTimeline(){
-    console.log("timeline for ", twitterUsername)
-
+  function renderTwitterTimeline() {
+    console.log("timeline for ", twitterUsername);
+  
     if (twitterUsername) {
       hideTwitterLogo();
-
+  
       tweetContainer.innerHTML = "";
       tweetContainer.style.overflow = "auto";
       tweetContainer.style.height = "100vh";
-
+  
       const tweetLink = document.createElement("a");
       tweetLink.className = "twitter-timeline";
       tweetLink.href = "https://twitter.com/" + twitterUsername;
       tweetLink.innerText = "Loading X Timeline...";
       tweetLink.target = "_blank";
-
+  
       tweetContainer.appendChild(tweetLink);
-
+  
       if (window.twttr && window.twttr.widgets) {
         window.twttr.widgets.load();
-      } 
-      else {
+        
+        // Check for loading completion with a timeout
+        setTimeout(() => {
+          const timeline = document.querySelector('.twitter-timeline');
+          if (timeline && timeline.innerText.includes("Loading X Timeline...")) {
+            console.error("Timeline failed to load.");
+            displayTwitterLogo(); // Show the fallback logo
+          } else {
+            console.log("Timeline loaded successfully.");
+          }
+        }, 5000); // Adjust timeout as needed
+      } else {
         console.error("Twitter widgets script not loaded or `twttr` is not defined");
       }
-    } 
-    else {
+    } else {
       displayTwitterLogo();
     }
   }
+  
 
   function render() {
     switch (widgetType) {
