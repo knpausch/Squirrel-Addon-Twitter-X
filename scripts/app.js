@@ -81,6 +81,7 @@
 
   function renderTwitterTimeline(){
     console.log("timeline for ", twitterUsername)
+
     if (twitterUsername) {
       hideTwitterLogo();
 
