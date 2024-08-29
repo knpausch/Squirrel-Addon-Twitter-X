@@ -80,6 +80,7 @@
   }
 
   function renderTwitterTimeline() {
+    twitterUsername = formatUsername(twitterUsername);
     console.log("timeline for ", twitterUsername);
   
     if (twitterUsername) {
@@ -137,6 +138,10 @@
     const twitterURLPattern =
       /^https:\/\/(www\.)?twitter\.com\/[A-z0-9_]+\/status\/[0-9]+$/;
     return twitterURLPattern.test(url);
+  }
+
+  function formatUsername(username){
+    return username.replace(/@/g, '');
   }
 
   function displayTwitterLogo() {
