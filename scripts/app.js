@@ -3,6 +3,7 @@
 
   let widgetType;
   let twitterPostURL;
+  let twitterUsername;
 
   const tweetContainer = document.getElementById("tweet-container");
   const twitterLogoContainer = document.getElementById(
@@ -20,6 +21,7 @@
       console.log("STATE: ", state);
       twitterPostURL = state.postURL;
       widgetType = state.styleType;
+      twitterUsername = state.xUsername;
       render();
     }
   }
@@ -35,6 +37,9 @@
       case "postURL":
         twitterPostURL = propertyValue;
         break;
+      case "xUsername":
+        twitterUsername = propertyValue;
+        break;
       default:
         console.log("Unknown message type: " + propertyName);
         break;
@@ -42,7 +47,8 @@
     render();
   }
 
-  function render() {
+  function renderTwitterPost(){
+    console.log("single post")
     if (twitterPostURL && isValidTwitterURL(twitterPostURL)) {
       hideTwitterLogo();
 
@@ -67,6 +73,47 @@
     } 
     else {
       displayTwitterLogo();
+    }
+  }
+
+  function renderTwitterTimeline(){
+    console.log("timeline for ", twitterUsername)
+    if (twitterUsername) {
+      hideTwitterLogo();
+
+      tweetContainer.innerHTML = "";
+
+      const tweetLink = document.createElement("a");
+      tweetLink.className = "twitter-timeline";
+      tweetLink.href = "https://twitter.com/" + twitterUsername;
+      tweetLink.innerText = "Loading Tweet...";
+      tweetLink.target = "_blank";
+
+      tweetContainer.appendChild(tweetLink);
+
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load();
+      } 
+      else {
+        console.error("Twitter widgets script not loaded or `twttr` is not defined");
+      }
+    } 
+    else {
+      displayTwitterLogo();
+    }
+  }
+
+  function render() {
+    switch (widgetType) {
+      case "singlePost":
+        renderTwitterPost();
+        break;
+      case "timeline":
+        renderTwitterTimeline();
+        break;
+      default:
+        console.log("Unknown widget type: " + propertyName);
+        break;
     }
   }
 
